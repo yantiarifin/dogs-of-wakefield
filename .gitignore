@@ -24,3 +24,6 @@ node_modules/
 # Logs
 *.log
 npm-debug.log*
+
+# Superseded by header.jpg; kept locally.
+header.png
