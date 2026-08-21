@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dogs of Wakefield</title>
+  <meta name="description" content="A portrait gallery of the dogs of Wakefield.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#gallery">Skip to gallery</a>
+
+  <header class="masthead">
+    <img class="masthead__image" src="header.png"
+         alt="Four dogs resting together on the wood chips at the dog park"
+         width="1024" height="320" fetchpriority="high">
+    <div class="masthead__text">
+      <h1>Dogs of Wakefield</h1>
+      <p class="masthead__count" id="count" role="status"></p>
+    </div>
+  </header>
+
+  <main>
+    <ul class="gallery" id="gallery" aria-label="Dog portraits"></ul>
+    <p class="empty" id="empty" hidden></p>
+  </main>
+
+  <footer class="site-footer">
+    <a class="messenger-link" href="https://m.me/yarifin" target="_blank" rel="noopener">
+      <svg class="messenger-link__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2C6.24 2 2 6.22 2 11.76c0 2.9 1.16 5.42 3.05 7.16.16.15.25.35.26.57l.05 1.72c.02.55.59.9 1.09.68l1.92-.85a.76.76 0 0 1 .5-.04c.91.25 1.88.38 2.88.38 5.76 0 10-4.22 10-9.76S17.76 2 12 2Z"/>
+        <path d="m5.99 14.54 2.94-4.66a1.5 1.5 0 0 1 2.17-.4l2.34 1.75c.21.16.5.16.71 0l3.16-2.4c.42-.32.97.19.69.64l-2.94 4.66a1.5 1.5 0 0 1-2.17.4l-2.34-1.75a.6.6 0 0 0-.71 0l-3.16 2.4c-.42.32-.97-.19-.69-.64Z" fill="var(--messenger-blue)"/>
+      </svg>
+      Message Yanti for a portrait
+    </a>
+  </footer>
+
+  <!-- Modal -->
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox__backdrop" data-close></div>
+
+    <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-name">
+      <button class="lightbox__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+
+      <button class="lightbox__nav lightbox__nav--prev" type="button" id="prev" aria-label="Previous portrait">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+
+      <figure class="lightbox__figure">
+        <img class="lightbox__image" id="lightbox-image" alt="">
+        <figcaption class="lightbox__caption">
+          <h2 class="lightbox__name" id="lightbox-name"></h2>
+          <p class="lightbox__memorial" id="lightbox-memorial" hidden>
+            <img class="rainbow-big" src="rainbow.svg" alt="">
+            <span id="lightbox-memorial-text"></span>
+          </p>
+        </figcaption>
+      </figure>
+
+      <button class="lightbox__nav lightbox__nav--next" type="button" id="next" aria-label="Next portrait">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="scripts/gallery.js"></script>
+</body>
+</html>

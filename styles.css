@@ -1,0 +1,417 @@
+/* Dogs of Wakefield — portrait gallery
+   The portraits are loud and colourful, so the page around them stays quiet. */
+
+:root {
+  --bg: #2c2c2f;
+  --surface: #3a3a3e;
+  --ink: #ffffff;
+  --ink-soft: #b6b6bc;
+  --line: #4a4a4f;
+  --shadow: 0 0 0;
+  --focus: #7aa5ff;
+  --radius: 14px;
+  --font-display: "Inter", system-ui, sans-serif;
+  /* Facebook brand blue is #1877f2, but white text on it only reaches 4.23:1.
+     Nudged one step darker to clear WCAG AA (4.5:1) while still reading as
+     Facebook blue. */
+  --messenger-blue: #166fe5;
+  --messenger-blue-hover: #0b5fcc;
+
+
+  /* Matches scrollbars and any native UI to the dark page. */
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+h2 {
+  margin: 0.3em;
+}
+
+/* ---------- Masthead ---------- */
+
+/* Inter covers the whole masthead — the title and the count beneath it. */
+.masthead {
+  text-align: center;
+  font-family: var(--font-display);
+}
+
+/* Edge to edge. The source is 1024x320, so the height is capped at its native
+   320px — past that it would just upscale. */
+.masthead__image {
+  display: block;
+  width: 100%;
+  height: clamp(150px, 24vw, 320px);
+  object-fit: cover;
+  object-position: center;
+}
+
+.masthead__text {
+  padding: clamp(1.5rem, 4vw, 2.5rem) 1.25rem 1.5rem;
+}
+
+.masthead h1 {
+  margin: 0;
+  /* Inter is a variable face spanning 100–900, so a real heavy weight is
+     available here, and it wants slightly negative tracking at display size. */
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  letter-spacing: -0.022em;
+  line-height: 1.1;
+  margin-bottom: 0.3em;
+}
+
+.masthead__count {
+  margin: 0.5rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;   /* space between "52 portraits ·" and "4 remembered" */
+}
+
+.site-footer {
+  padding: 0 1.25rem 3.5rem;
+  text-align: center;
+}
+
+/* Understated on purpose — the portraits should still be the loudest thing. */
+.messenger-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: var(--messenger-blue);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.messenger-link__icon {
+  width: 1.25em;
+  height: 1.25em;
+  fill: currentColor;
+}
+
+.messenger-link:hover {
+  background: var(--messenger-blue-hover);
+  transform: translateY(-1px);
+}
+
+.messenger-link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* inline-flex centres the rainbow against the text without relying on
+   vertical-align, which is finicky at this size. */
+.masthead__remembered {
+  display: inline-flex;
+  white-space: nowrap;   /* keeps the icon from wrapping away from the number */
+  justify-content: center;
+}
+
+/* Masthead rainbow only. Scoped so tweaking it here leaves the modal's copy
+   alone. Sizes are in em, so they track the surrounding text. */
+.masthead__remembered .rainbow-key {
+  display: flex;
+  justify-items: center;
+  margin-right: 1em;
+}
+
+/* ---------- Grid ---------- */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+  gap: clamp(1rem, 3vw, 1.75rem);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 3rem;
+  list-style: none;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.card__frame {
+  display: block;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+  /* Carried deliberately heavy — a soft shadow disappears against the grey. */
+  box-shadow: 0 1px 2px rgb(var(--shadow) / 0.30), 0 6px 18px rgb(var(--shadow) / 0.26);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card:hover .card__frame,
+.card:focus-visible .card__frame {
+  transform: translateY(-4px);
+  box-shadow: 0 2px 4px rgb(var(--shadow) / 0.36), 0 14px 30px rgb(var(--shadow) / 0.42);
+}
+
+.card:focus { outline: none; }
+
+.card:focus-visible .card__frame {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* Name sits between two equal slots so it stays optically centred whether or
+   not the dog has a rainbow. */
+.card__caption {
+  display: grid;
+  /* Both side columns match .card__rainbow so the name stays centred. */
+  grid-template-columns: 1.9rem auto 1.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+}
+
+.card__name {
+  grid-column: 2;
+  font-size: 1.02rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.card__rainbow {
+  grid-column: 3;
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+/* ---------- Rainbow ---------- */
+
+/* Both rules point at rainbow.svg; its colours live inside the file. */
+.rainbow {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Copy used inline in the footer key and the modal caption. Sized in em so it
+   tracks the surrounding text; the 4:3 ratio matches the artwork. */
+.rainbow-key {
+  display: inline-block;
+  width: 1.8em;
+  height: 1.35em;
+}
+
+.rainbow-big {
+  width: 4em;
+  height: auto;
+  aspect-ratio: auto;
+}
+
+.empty {
+  padding: 3rem 1.25rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- Modal ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(12 10 8 / 0.72);
+  backdrop-filter: blur(3px);
+  animation: fade 180ms ease;
+}
+
+.lightbox__dialog {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.25rem, 2vw, 1rem);
+  width: min(100%, 1100px);
+  max-height: 100%;
+  animation: rise 200ms ease;
+}
+
+.lightbox__figure {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.lightbox__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  /* Leave headroom for the caption and the page padding. */
+  max-height: min(72vh, 760px);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+}
+
+.lightbox__caption {
+  color: #fff;
+  text-align: center;
+}
+
+.lightbox__name {
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.lightbox__memorial {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.lightbox__memorial[hidden] { display: none; }
+
+/* Modal buttons */
+
+.lightbox__close,
+.lightbox__nav {
+  display: grid;
+  place-items: center;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.lightbox__close svg,
+.lightbox__nav svg {
+  width: 55%;
+  height: 55%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  z-index: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.lightbox__nav {
+  width: clamp(2.5rem, 5vw, 3.25rem);
+  height: clamp(2.5rem, 5vw, 3.25rem);
+}
+
+/* display:grid above would otherwise defeat the hidden attribute. */
+.lightbox__nav[hidden] { display: none; }
+
+.lightbox__close:hover,
+.lightbox__nav:hover {
+  background: rgb(255 255 255 / 0.24);
+  transform: scale(1.06);
+}
+
+.lightbox__close:focus-visible,
+.lightbox__nav:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ---------- Utility ---------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 0 0 var(--radius) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  z-index: 20;
+}
+
+body.is-locked { overflow: hidden; }
+
+@keyframes fade {
+  from { opacity: 0; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* On narrow screens the arrows move below the image so the portrait keeps
+   the full width. */
+@media (max-width: 640px) {
+  .lightbox__dialog { flex-wrap: wrap; justify-content: center; }
+  .lightbox__figure { flex-basis: 100%; order: -1; }
+  .lightbox__image { max-height: 62vh; }
+}

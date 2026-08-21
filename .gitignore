@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+._*
+
+# Transparent-background source art. Not used by the site — kept locally for
+# the abandoned background-swap idea.
+outlined/
+
+# Full-size 3000px originals: ~182MB, and the site never serves them. The
+# generated portraits/thumbs/ and portraits/display/ copies are committed
+# instead. These patterns only match files directly in portraits/, so the two
+# subfolders are unaffected.
+/portraits/*.jpg
+/portraits/*.jpeg
+/portraits/*.png
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
