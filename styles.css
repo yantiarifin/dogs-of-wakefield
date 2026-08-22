@@ -144,6 +144,14 @@ h2 {
   list-style: none;
 }
 
+/* Two columns is the floor. auto-fill above needs 210px per card, so a phone
+   narrower than ~468px would otherwise drop to a single column. */
+@media (max-width: 520px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .card {
   display: block;
   width: 100%;
