@@ -225,6 +225,14 @@
       "passed": false
     },
     {
+      "id": "Molly-2025-10-31",
+      "name": "Molly",
+      "date": "2025-10-31",
+      "thumb": "portraits/thumbs/Molly-2025-10-31.jpg",
+      "display": "portraits/display/Molly-2025-10-31.jpg",
+      "passed": false
+    },
+    {
       "id": "Mya-2025-06-07",
       "name": "Mya",
       "date": "2025-06-07",
@@ -233,11 +241,27 @@
       "passed": false
     },
     {
+      "id": "Nate-2026-03-13",
+      "name": "Nate",
+      "date": "2026-03-13",
+      "thumb": "portraits/thumbs/Nate-2026-03-13.jpg",
+      "display": "portraits/display/Nate-2026-03-13.jpg",
+      "passed": false
+    },
+    {
       "id": "Nova-2025-05-11",
       "name": "Nova",
       "date": "2025-05-11",
       "thumb": "portraits/thumbs/Nova-2025-05-11.jpg",
       "display": "portraits/display/Nova-2025-05-11.jpg",
+      "passed": false
+    },
+    {
+      "id": "Oreo-2025-11-25",
+      "name": "Oreo",
+      "date": "2025-11-25",
+      "thumb": "portraits/thumbs/Oreo-2025-11-25.jpg",
+      "display": "portraits/display/Oreo-2025-11-25.jpg",
       "passed": false
     },
     {
